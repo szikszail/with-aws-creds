@@ -8,13 +8,13 @@
     "target": "es6",
     "module": "commonjs",
     "noImplicitAny": true,
-    "declaration": true,
+    "declaration": false,
     "importHelpers": true,
     "rootDir": "./src",
     "outDir": "./dist",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "sourceMap": true
+    "sourceMap": false
   },
   "include": [
     "src"
