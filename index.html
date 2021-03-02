@@ -82,7 +82,7 @@
 				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds yarn </span><span style="color: #795E26">test</span>
 </code></pre>
 				<p><strong>NOTE</strong> then when you want to execute a command which has command line arguments in quotes, set the whole command in apostrophs:</p>
-				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds </span><span style="color: #A31515">&#039;node -e &quot;console.log(process.env.AWS_ACCESS_KEY_ID)&quot;&#039;</span>
+				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds </span><span style="color: #A31515">&quot;node -e </span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">console.log(process.env.AWS_ACCESS_KEY_ID)</span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">&quot;</span>
 </code></pre>
 				<p>For detailed documentation see the <a href="https://szikszail.github.io/with-aws-creds/">TypeDocs documentation</a>.</p>
 			</div>
