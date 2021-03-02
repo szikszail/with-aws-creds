@@ -32,8 +32,8 @@ export function run(): void {
     }
     execSync(command, {
         env: {
-            ...awsEnv,
             ...process.env,
+            ...awsEnv,
         },
         cwd: process.cwd(),
         stdio: 'inherit',
