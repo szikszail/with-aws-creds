@@ -30,6 +30,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run buildUpdate
-      - run: npm publish --tag beta ./dist
+      - run: npm publish ./dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
