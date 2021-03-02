@@ -30,7 +30,7 @@ with-aws-creds yarn test
 **NOTE** then when you want to execute a command which has command line arguments in quotes, set the whole command in apostrophs:
 
 ```shell
-with-aws-creds 'node -e "console.log(process.env.AWS_ACCESS_KEY_ID)"'
+with-aws-creds "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
 ```
 
 For detailed documentation see the [TypeDocs documentation](https://szikszail.github.io/with-aws-creds/).
