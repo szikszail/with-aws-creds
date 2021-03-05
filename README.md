@@ -33,4 +33,16 @@ with-aws-creds yarn test
 with-aws-creds "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
 ```
 
+### Additional properties
+
+If you would like to set additional temporary environment variables to your command, set them right before your command as command-line arguments **with values**:
+
+```shell
+with-aws-creds --aws_account_id=123 "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
+# or
+# with-aws-creds --aws_account_id 123 "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
+```
+
+**Important!** ensure that all parameters you set has a value!
+
 For detailed documentation see the [TypeDocs documentation](https://szikszail.github.io/with-aws-creds/).
