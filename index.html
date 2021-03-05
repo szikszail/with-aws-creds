@@ -84,6 +84,15 @@
 				<p><strong>NOTE</strong> then when you want to execute a command which has command line arguments in quotes, set the whole command in apostrophs:</p>
 				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds </span><span style="color: #A31515">&quot;node -e </span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">console.log(process.env.AWS_ACCESS_KEY_ID)</span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">&quot;</span>
 </code></pre>
+				<a href="#additional-properties" id="additional-properties" style="color: inherit; text-decoration: none;">
+					<h3>Additional properties</h3>
+				</a>
+				<p>If you would like to set additional temporary environment variables to your command, set them right before your command as command-line arguments <strong>with values</strong>:</p>
+				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds --aws_account_id=123 </span><span style="color: #A31515">&quot;node -e </span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">console.log(process.env.AWS_ACCOUNT_ID)</span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">&quot;</span>
+<span style="color: #008000"># or</span>
+<span style="color: #008000"># with-aws-creds --aws_account_id 123 &quot;node -e \&quot;console.log(process.env.AWS_ACCOUNT_ID)\&quot;&quot;</span>
+</code></pre>
+				<p><strong>Important!</strong> ensure that all parameters you set has a value!</p>
 				<p>For detailed documentation see the <a href="https://szikszail.github.io/with-aws-creds/">TypeDocs documentation</a>.</p>
 			</div>
 		</div>
