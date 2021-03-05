@@ -1,6 +1,6 @@
 {
   "name": "with-aws-creds",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Seed project for TypeScript projects",
   "main": "index.js",
   "types": "index.d.ts",
