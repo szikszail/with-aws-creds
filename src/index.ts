@@ -20,6 +20,18 @@ interface ProcessedArguments {
 }
 
 const CLA = /^--([^=]+)(?:=(.+))?$/;
+const SEPARATOR = "--";
+
+function separateCommandAndArguments(args: string[]): [string, string[]] {
+    const separatorIndex = args.indexOf(SEPARATOR);
+    if (separatorIndex === -1) {
+        return ["", args];
+    }
+    return [
+        args.slice(separatorIndex + 1).join(" "),
+        args.slice(0, separatorIndex),
+    ];
+}
 
 function getProcessedArguments(args: string[]): ProcessedArguments {
     const commandParts: string[] = [];
@@ -27,6 +39,8 @@ function getProcessedArguments(args: string[]): ProcessedArguments {
         command: '',
         additionalParameters: {}
     };
+    [processed.command, args] = separateCommandAndArguments(args);
+    debug("initial %o %o", processed.command, args);
     if (!CLA.test(args[0])) {
         debug("no arguments");
         commandParts.push(...args);
@@ -50,10 +64,12 @@ function getProcessedArguments(args: string[]): ProcessedArguments {
             }
         }
     }
-    if (!commandParts.length) {
-        throw error("There is no command specified!");
+    if (!processed.command) {
+        if (!commandParts.length) {
+            throw error("There is no command specified!");
+        }
+        processed.command = commandParts.join(" ");
     }
-    processed.command = commandParts.join(" ");
     debug("processedArguments %o", processed);
     return processed;
 }
@@ -66,7 +82,7 @@ export function run(): void {
     debug("command %o", command);
 
     const credentials = {
-        ...getCredentials(),
+        ...getCredentials(additionalParameters.aws_profile),
         ...additionalParameters,
     };
     debug("keys %o", Object.keys(credentials));

@@ -16,6 +16,7 @@ describe("run", () => {
     beforeEach(() => {
         prevArgv = process.argv;
         prevEnv = process.env;
+        jest.clearAllMocks();
     });
 
     afterEach(() => {
@@ -44,6 +45,9 @@ describe("run", () => {
     test("should fail if an argument is set without value", () => {
         process.argv = ["node", "bin/with-aws-creds", "--p1", "--p2", "v2", "which", "node"];
         expect(() => run()).toThrow("Argument is not valid, missing value: p1!");
+
+        process.argv = ["node", "bin/with-aws-creds", "--p3", "--", "which", "node"];
+        expect(() => run()).toThrow("Argument is not valid, missing value: p3!");
     });
 
     test("should execute command with credentails", () => {
@@ -61,6 +65,35 @@ describe("run", () => {
 
         process.env = { HOMEPATH: "/homepath" };
         process.argv = ["node", "bin/with-aws-creds", "which", "node", "--smth"];
+        run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                HOMEPATH: "/homepath",
+                "KEY1": "value1",
+                "KEY2": "value2"
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
+    test("should execute command with separator but without additional arguments", () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--", "which", "node", "--smth"];
         run();
 
         expect(execSync).toHaveBeenCalledWith("which node --smth", {
@@ -98,6 +131,66 @@ describe("run", () => {
                 "KEY1": "value1",
                 "KEY2": "value2",
                 "AWS_ACCOUNT_ID": "123",
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
+    test("should execute command with profile set in additional parameters", () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--aws_profile", "profile", "which", "node", "--smth"];
+        run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                HOMEPATH: "/homepath",
+                "KEY3": "value3",
+                "KEY4": "value4",
+                "AWS_PROFILE": "profile",
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
+    test("should execute command with separator argument", () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--aws_profile", "profile", "--", "which", "node", "--smth"];
+        run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                HOMEPATH: "/homepath",
+                "KEY3": "value3",
+                "KEY4": "value4",
+                "AWS_PROFILE": "profile",
             },
             cwd: process.cwd(),
             stdio: 'inherit',

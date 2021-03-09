@@ -11,7 +11,11 @@ A CLI tool to run a command with your AWS credentials set as environment variabl
 The tool will set ALL key/values from the selected profile from the **AWS Credentails** file as environment variables, where:
 
 1. The environment variable names are in UPPERCASE
-1. The profile selected is either the one set in the `AWS_PROFILE` environment variable, or the `default`, or if non match, and there is only one profile, then that.
+1. The profile selected is either
+    1. the one set in the `--aws_profile` argument, or 
+    1. the one set in the `AWS_PROFILE` environment variable, or 
+    1. the `default`, or 
+    1. if non match, and there is only one profile, then that.
 
 ## Usage
 
@@ -38,10 +42,12 @@ with-aws-creds "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
 If you would like to set additional temporary environment variables to your command, set them right before your command as command-line arguments **with values**:
 
 ```shell
-with-aws-creds --aws_account_id=123 "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
+with-aws-creds --aws_account_id=123 -- "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
 # or
-# with-aws-creds --aws_account_id 123 "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
+# with-aws-creds --aws_account_id 123 -- "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
 ```
+
+You can also use the `--` separator argument to clearly differntiate between the command and the arguments. Using it is optional, but it makes more clear what are the arguments and what is the command.
 
 **Important!** ensure that all parameters you set has a value!
 
