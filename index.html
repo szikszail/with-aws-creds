@@ -70,7 +70,13 @@
 				<p>The tool will set ALL key/values from the selected profile from the <strong>AWS Credentails</strong> file as environment variables, where:</p>
 				<ol>
 					<li>The environment variable names are in UPPERCASE</li>
-					<li>The profile selected is either the one set in the <code>AWS_PROFILE</code> environment variable, or the <code>default</code>, or if non match, and there is only one profile, then that.</li>
+					<li>The profile selected is either<ol>
+							<li>the one set in the <code>--aws_profile</code> argument, or </li>
+							<li>the one set in the <code>AWS_PROFILE</code> environment variable, or </li>
+							<li>the <code>default</code>, or </li>
+							<li>if non match, and there is only one profile, then that.</li>
+						</ol>
+					</li>
 				</ol>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
@@ -88,10 +94,11 @@
 					<h3>Additional properties</h3>
 				</a>
 				<p>If you would like to set additional temporary environment variables to your command, set them right before your command as command-line arguments <strong>with values</strong>:</p>
-				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds --aws_account_id=123 </span><span style="color: #A31515">&quot;node -e </span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">console.log(process.env.AWS_ACCOUNT_ID)</span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">&quot;</span>
+				<pre><code class="language-shell"><span style="color: #000000">with-aws-creds --aws_account_id=123 -- </span><span style="color: #A31515">&quot;node -e </span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">console.log(process.env.AWS_ACCOUNT_ID)</span><span style="color: #EE0000">\&quot;</span><span style="color: #A31515">&quot;</span>
 <span style="color: #008000"># or</span>
-<span style="color: #008000"># with-aws-creds --aws_account_id 123 &quot;node -e \&quot;console.log(process.env.AWS_ACCOUNT_ID)\&quot;&quot;</span>
+<span style="color: #008000"># with-aws-creds --aws_account_id 123 -- &quot;node -e \&quot;console.log(process.env.AWS_ACCOUNT_ID)\&quot;&quot;</span>
 </code></pre>
+				<p>You can also use the <code>--</code> separator argument to clearly differntiate between the command and the arguments. Using it is optional, but it makes more clear what are the arguments and what is the command.</p>
 				<p><strong>Important!</strong> ensure that all parameters you set has a value!</p>
 				<p>For detailed documentation see the <a href="https://szikszail.github.io/with-aws-creds/">TypeDocs documentation</a>.</p>
 			</div>
