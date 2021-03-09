@@ -1,9 +1,5 @@
 # Changelog
 
-## 1.2.1
-
-- Fixed Husky in CI release
-
 ## 1.2.0
 
 - Added separator argument (`--`)
