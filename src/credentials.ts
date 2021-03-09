@@ -34,7 +34,7 @@ function readCredentialsFile(file: string): Profiles {
     return parseFile(file);
 }
 
-export function getCredentials(): Configuration {
+export function getCredentials(awsProfile?: string): Configuration {
     const file = getCredentialsFileName();
     debug("credentials file %o", file);
 
@@ -42,7 +42,7 @@ export function getCredentials(): Configuration {
     const profileNames = Object.keys(profiles);
     debug("profiles %o", profileNames);
 
-    const profile = process.env.AWS_PROFILE || DEFAULT_PROFILE;
+    const profile = awsProfile || process.env.AWS_PROFILE || DEFAULT_PROFILE;
     debug("profile %o", profile);
     if (!profiles[profile]) {
         if (profileNames.length === 1) {
