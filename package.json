@@ -15,7 +15,8 @@
     "compile": "tsc && npm run lint",
     "copyToDist": "copyfiles -f *.txt *.md package.json dist",
     "typedoc": "typedoc --exclude **/bin/**/*.ts --out ./docs ./src && touch ./docs/.nojekyll",
-    "clean": "rimraf ./dist ./docs ./coverage ./reports"
+    "clean": "rimraf ./dist ./docs ./coverage ./reports",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
