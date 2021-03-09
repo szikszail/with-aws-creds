@@ -79,6 +79,35 @@ describe("run", () => {
         });
     });
 
+    test("should execute command with separator but without additional arguments", () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--", "which", "node", "--smth"];
+        run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                HOMEPATH: "/homepath",
+                "KEY1": "value1",
+                "KEY2": "value2"
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
     test("should execute command with credentails and additional parameters", () => {
         (platform as unknown as jest.Mock).mockReturnValue("win32");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);
