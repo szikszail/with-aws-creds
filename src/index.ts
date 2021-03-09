@@ -29,7 +29,7 @@ function separateCommandAndArguments(args: string[]): [string, string[]] {
     }
     return [
         args.slice(separatorIndex + 1).join(" "),
-        args.slice(separatorIndex),
+        args.slice(0, separatorIndex),
     ];
 }
 
@@ -40,6 +40,7 @@ function getProcessedArguments(args: string[]): ProcessedArguments {
         additionalParameters: {}
     };
     [processed.command, args] = separateCommandAndArguments(args);
+    debug("initial %o %o", processed.command, args);
     if (!CLA.test(args[0])) {
         debug("no arguments");
         commandParts.push(...args);
