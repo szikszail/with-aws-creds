@@ -56,10 +56,10 @@ You can also use the `--` separator argument to clearly differntiate between the
 The tool also allows to use [AWS STS](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html) to assume a give role and use the credentials during command execution. To assume a role and use that, you can use the following command:
 
 ```shell
-with-aws-creds --sts-assume-role=arn-of-the-role -- "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
+with-aws-creds --aws_role=arn-of-the-role -- "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
 ```
 
-If the `sts-assume-role` argument is set, then the tool will use the default credentails set on the host machine, an using AWS CLI, will assume the role passed. If the action is successful, then the generated AWS credentials will be set in the environment variables.
+If the `aws_role` argument is set, then the tool will use the default credentails set on the host machine, an using AWS CLI, will assume the role passed. If the action is successful, then the generated AWS credentials will be set in the environment variables.
 
 ### More
 
