@@ -1,4 +1,5 @@
 import { getCredentials } from "./credentials";
+import * as sts from "./sts";
 import { execSync } from "child_process";
 import { debug } from "./debug";
 import { error } from "./error";
@@ -16,6 +17,8 @@ interface ProcessedArguments {
     command: string;
     additionalParameters: {
         [key: string]: string;
+        aws_profile?: string;
+        aws_role?: string;
     }
 }
 
@@ -74,15 +77,22 @@ function getProcessedArguments(args: string[]): ProcessedArguments {
     return processed;
 }
 
-export function run(): void {
+export async function run(): Promise<void> {
     const args = getArguments();
     debug("args %o", args);
 
     const { command, additionalParameters } = getProcessedArguments(args);
     debug("command %o", command);
 
+    let awsCredentails = getCredentials(additionalParameters.aws_profile);
+    debug("awsCredentials keys %o", Object.keys(awsCredentails));
+
+    if (additionalParameters.aws_role) {
+        awsCredentails = await sts.assumeRole(additionalParameters.aws_role, awsCredentails);
+    }
+
     const credentials = {
-        ...getCredentials(additionalParameters.aws_profile),
+        ...awsCredentails,
         ...additionalParameters,
     };
     debug("keys %o", Object.keys(credentials));
