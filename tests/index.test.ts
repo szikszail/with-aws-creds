@@ -111,6 +111,37 @@ describe("run", () => {
         });
     });
 
+    test("should execute command with sts with dash-arguments", async () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--aws-role", "aws-role", "which", "node", "--smth"];
+        await run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                AWS_ROLE: "aws-role",
+                HOMEPATH: "/homepath",
+                "KEY1": "value1",
+                "KEY2": "value2",
+                "ROLE": "aws-role",
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
     test("should execute command with separator but without additional arguments", async () => {
         (platform as unknown as jest.Mock).mockReturnValue("win32");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);
@@ -158,6 +189,36 @@ describe("run", () => {
         await run();
 
         expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                HOMEPATH: "/homepath",
+                "KEY1": "value1",
+                "KEY2": "value2",
+                "AWS_ACCOUNT_ID": "123",
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
+    test("should execute command with credentails and additional parameters with dash-arguments", async () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--aws-account-id", "123", "which", "node", "--under_score"];
+        await run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --under_score", {
             env: {
                 HOMEPATH: "/homepath",
                 "KEY1": "value1",
@@ -218,6 +279,36 @@ describe("run", () => {
         await run();
 
         expect(execSync).toHaveBeenCalledWith("which node --smth", {
+            env: {
+                HOMEPATH: "/homepath",
+                "KEY3": "value3",
+                "KEY4": "value4",
+                "AWS_PROFILE": "profile",
+            },
+            cwd: process.cwd(),
+            stdio: 'inherit',
+            encoding: "utf-8"
+        });
+    });
+
+    test("should execute command with separator argument and dash-arguments", async () => {
+        (platform as unknown as jest.Mock).mockReturnValue("win32");
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        (readFileSync as unknown as jest.Mock).mockReturnValue(`
+        [default]
+        key1 = value1
+        key2=value2
+
+        [profile]
+        key3 =value3  
+        key4= value4
+        `);
+
+        process.env = { HOMEPATH: "/homepath" };
+        process.argv = ["node", "bin/with-aws-creds", "--aws-profile", "profile", "--", "which", "node", "--under_score"];
+        await run();
+
+        expect(execSync).toHaveBeenCalledWith("which node --under_score", {
             env: {
                 HOMEPATH: "/homepath",
                 "KEY3": "value3",

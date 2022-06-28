@@ -47,9 +47,11 @@ with-aws-creds --aws_account_id=123 -- "node -e \"console.log(process.env.AWS_AC
 # with-aws-creds --aws_account_id 123 -- "node -e \"console.log(process.env.AWS_ACCOUNT_ID)\""
 ```
 
-You can also use the `--` separator argument to differentiate between the command and the arguments. Using it is optional, but it makes clear, which is the command and where argumets start.
+You can also use the `--` separator argument to differentiate between the command and the arguments. Using it is optional, but it makes clear, which is the command and where arguments start.
 
 **Important!** ensure that all parameters you set have a value!
+
+**Note** that arguments either can be set using either underscore (`_`) or dash (`-`) instead of white-spaces, e.g. `--aws-profile`.
 
 ### STS
 

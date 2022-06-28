@@ -53,12 +53,13 @@ function getProcessedArguments(args: string[]): ProcessedArguments {
             const m = args[i].match(CLA);
             debug("arg: %o, i: %d, match: %o, next: %o", args[i], i, m, args[i + 1]);
             if (m) {
+                const name = m[1].replace(/-/g, '_');
                 if (m[2]) {
-                    processed.additionalParameters[m[1]] = m[2];
+                    processed.additionalParameters[name] = m[2];
                 } else if (!args[i + 1] || CLA.test(args[i + 1])) {
                     throw error(`Argument is not valid, missing value: ${m[1]}!`);
                 } else {
-                    processed.additionalParameters[m[1]] = args[i + 1];
+                    processed.additionalParameters[name] = args[i + 1];
                     ++i;
                 }
             } else {
