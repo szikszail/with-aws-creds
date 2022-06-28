@@ -14,7 +14,7 @@
     "lint": "eslint . --ext .ts --fix",
     "compile": "tsc && npm run lint",
     "copyToDist": "copyfiles -f *.txt *.md package.json dist",
-    "typedoc": "typedoc --exclude **/bin/**/*.ts --out ./docs ./src && touch ./docs/.nojekyll",
+    "typedoc": "typedoc --exclude **/bin/**/*.ts --out ./docs ./src",
     "clean": "rimraf ./dist ./docs ./coverage ./reports",
     "prepare": "is-ci || husky install"
   },
