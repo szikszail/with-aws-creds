@@ -3,11 +3,11 @@ import { Credentials } from "./credentials";
 import { v4 } from "uuid";
 
 export async function assumeRole(roleArn: string, credentials: Credentials): Promise<Credentials> {
-  if (!credentials.aws_access_key_id || !credentials.aws_secret_access_key) {
-    throw new Error('AWS Credentials are not set!');
-  }
   if (!roleArn) {
     throw new Error('Role ARN is not set!');
+  }
+  if (!credentials.aws_access_key_id || !credentials.aws_secret_access_key) {
+    throw new Error('AWS Credentials are not set!');
   }
 
   const client = new sts.STSClient({
@@ -35,5 +35,4 @@ export async function assumeRole(roleArn: string, credentials: Credentials): Pro
   } catch (error) {
     throw new Error('Issue during assuming role: ' + error);
   }
-  return credentials;
 }
