@@ -51,6 +51,17 @@ describe("run", () => {
         expect(() => run()).rejects.toThrow("Argument is not valid, missing value: p3!");
     });
 
+    test("should display help", async () => {
+        (existsSync as unknown as jest.Mock).mockReturnValue(true);
+        jest.spyOn(console, "log");
+
+        process.argv = ["node", "bin/with-aws-creds", "--help"];
+        await run();
+
+        expect(console.log).toHaveBeenCalledWith(expect.stringContaining("Usage: with-aws-creds [options] -- command"));
+        expect(execSync).not.toHaveBeenCalled();
+    });
+
     test("should execute command with credentails", async () => {
         (platform as unknown as jest.Mock).mockReturnValue("win32");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);

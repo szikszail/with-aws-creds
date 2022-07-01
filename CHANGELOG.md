@@ -4,6 +4,7 @@
 
 - Added support for assuming role with STS
 - Added support for "dash-arguments", e.g. `--aws-profile`
+- Added `--help`
 
 ## 1.2.0
 
