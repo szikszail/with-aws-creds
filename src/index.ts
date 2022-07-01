@@ -37,6 +37,19 @@ function separateCommandAndArguments(args: string[]): [string, string[]] {
     ];
 }
 
+function displayHelp() {
+    console.log(
+        "Usage: with-aws-creds [options] -- command\n\n" +
+        "options:\n" +
+        "\t--help                : Displays this message.\n" +
+        "\t--aws-profile PROFILE : The AWS profile set in credentials to use.\n" +
+        "\t--aws-role ARN        : The ARN of the role to assume.\n\n" +
+        "\t  Any additional command line arguments can be set with it value,\n" +
+        "\t  and it will be set as environment variable for the command.\n" +
+        "\t  For example: --aws-account-id=123\n"
+    )
+}
+
 function getProcessedArguments(args: string[]): ProcessedArguments {
     const commandParts: string[] = [];
     const processed: ProcessedArguments = {
@@ -73,6 +86,7 @@ function getProcessedArguments(args: string[]): ProcessedArguments {
     }
     if (!processed.command) {
         if (!commandParts.length && !processed.help) {
+            displayHelp();
             throw error("There is no command specified!");
         }
         processed.command = commandParts.join(" ");
@@ -89,16 +103,7 @@ export async function run(): Promise<void> {
     debug("command %o", command);
 
     if (help) {
-        console.log(
-            "Usage: with-aws-creds [options] -- command\n\n" +
-            "options:\n" +
-            "\t--help                : Displays this message.\n" +
-            "\t--aws-profile PROFILE : The AWS profile set in credentials to use.\n" +
-            "\t--aws-role ARN        : The ARN of the role to assume.\n\n" +
-            "\t  Any additional command line arguments can be set with it value,\n" +
-            "\t  and it will be set as environment variable for the command.\n" +
-            "\t  For example: --aws-account-id=123\n"
-        )
+        displayHelp();
         return;
     }
 
