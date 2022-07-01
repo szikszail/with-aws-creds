@@ -55,7 +55,7 @@ You can also use the `--` separator argument to differentiate between the comman
 
 ### STS
 
-The tool also allows using [AWS STS](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html)](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html) to assume a given role and use the credentials during command execution. To assume a role and use that, you can use the following command:
+The tool also allows using [AWS STS](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html) to assume a given role and use the credentials during command execution. To assume a role and use that, you can use the following command:
 
 ```shell
 with-aws-creds --aws_role=arn-of-the-role -- "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
