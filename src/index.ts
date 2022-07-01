@@ -44,7 +44,7 @@ function displayHelp() {
         "\t--help                : Displays this message.\n" +
         "\t--aws-profile PROFILE : The AWS profile set in credentials to use.\n" +
         "\t--aws-role ARN        : The ARN of the role to assume.\n\n" +
-        "\t  Any additional command line arguments can be set with it value,\n" +
+        "\t  Any additional command line argument can be set with its values,\n" +
         "\t  and it will be set as environment variable for the command.\n" +
         "\t  For example: --aws-account-id=123\n"
     )

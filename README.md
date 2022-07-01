@@ -51,7 +51,7 @@ You can also use the `--` separator argument to differentiate between the comman
 
 **Important!** ensure that all parameters you set have a value!
 
-**Note** that arguments either can be set using either underscore (`_`) or dash (`-`) instead of white-spaces, e.g. `--aws-profile`.
+**Note** that arguments can be set using either underscore (`_`) or dash (`-`) instead of white spaces, e.g. `--aws-profile`.
 
 ### STS
 
