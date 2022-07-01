@@ -31,7 +31,7 @@ Use the `with-aws-creds` command to execute any commands:
 with-aws-creds yarn test
 ```
 
-**NOTE** then when you want to execute a command which has command-line arguments in quotes, set the whole command in apostrophes:
+**Note** that when you want to execute a command which has command-line arguments in quotes, set the whole command in apostrophes:
 
 ```shell
 with-aws-creds "node -e \"console.log(process.env.AWS_ACCESS_KEY_ID)\""
