@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="types.d.ts" />
-
 import { platform } from "os";
 import { join } from "path";
 import { existsSync } from "fs";
@@ -34,7 +31,15 @@ function readCredentialsFile(file: string): Profiles {
     return parseFile(file);
 }
 
-export function getCredentials(awsProfile?: string): Configuration {
+export interface Credentials extends Configuration {
+    aws_access_key_id?: string;
+    aws_secret_access_key?: string;
+    aws_session_token?: string;
+    aws_role_session_name?: string;
+    region?: string;
+}
+
+export function getCredentials(awsProfile?: string): Credentials {
     const file = getCredentialsFileName();
     debug("credentials file %o", file);
 

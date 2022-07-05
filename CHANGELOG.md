@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+- Added support for assuming role with STS
+- Added support for "dash-arguments", e.g. `--aws-profile`
+- Added `--help`
+
 ## 1.2.0
 
 - Added separator argument (`--`)
