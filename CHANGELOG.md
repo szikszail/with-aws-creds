@@ -5,6 +5,7 @@
 - Added support for assuming role with STS
 - Added support for "dash-arguments", e.g. `--aws-profile`
 - Added `--help`
+- Dropped support for Node.js 10 and 12
 
 ## 1.2.0
 
