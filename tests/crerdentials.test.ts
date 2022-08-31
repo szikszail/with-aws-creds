@@ -2,6 +2,7 @@ jest.mock("fs");
 jest.mock("os");
 
 import { existsSync, readFileSync } from "fs";
+import { sep, join } from "path";
 import { platform } from "os";
 import { getCredentials } from "../src/credentials";
 
@@ -35,39 +36,39 @@ describe("getCredentials", () => {
         (platform as unknown as jest.Mock).mockReturnValue("win32");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);
 
-        process.env = { USERPROFILE: "/userprofile", HOMEPATH: "/homepath" };
+        process.env = { USERPROFILE: sep + "userprofile", HOMEPATH: sep + "homepath" };
         const configuration = getCredentials();
         expect(configuration).toEqual({
             "key1": "value1",
             "key2": "value2"
         });
-        expect(existsSync).toHaveBeenCalledWith("/userprofile/.aws/credentials");
+        expect(existsSync).toHaveBeenCalledWith(sep + join("userprofile", ".aws", "credentials"));
     });
 
     test("should load windows credentials (using HOMEPATH)", () => {
         (platform as unknown as jest.Mock).mockReturnValue("win32");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);
 
-        process.env = { HOMEPATH: "/homepath" };
+        process.env = { HOMEPATH: sep + "homepath" };
         const configuration = getCredentials();
         expect(configuration).toEqual({
             "key1": "value1",
             "key2": "value2"
         });
-        expect(existsSync).toHaveBeenCalledWith("/homepath/.aws/credentials");
+        expect(existsSync).toHaveBeenCalledWith(sep + join("homepath", ".aws", "credentials"));
     });
 
     test("should load linux credentials (using HOME)", () => {
         (platform as unknown as jest.Mock).mockReturnValue("linux");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);
 
-        process.env = { USER: "user", HOME: "/this-is-home" };
+        process.env = { USER: "user", HOME: sep + "this-is-home" };
         const configuration = getCredentials();
         expect(configuration).toEqual({
             "key1": "value1",
             "key2": "value2"
         });
-        expect(existsSync).toHaveBeenCalledWith("/this-is-home/.aws/credentials");
+        expect(existsSync).toHaveBeenCalledWith(sep + join("this-is-home", ".aws", "credentials"));
     });
 
     test("should load linux credentails (using USER)", () => {
@@ -80,15 +81,15 @@ describe("getCredentials", () => {
             "key1": "value1",
             "key2": "value2"
         });
-        expect(existsSync).toHaveBeenCalledWith("/home/user/.aws/credentials");
+        expect(existsSync).toHaveBeenCalledWith(sep + join("home", "user", ".aws", "credentials"));
     });
 
     test("should handle missing credentails file", () => {
         (platform as unknown as jest.Mock).mockReturnValue("linux");
         (existsSync as unknown as jest.Mock).mockReturnValue(false);
 
-        process.env = { USER: "user", HOME: "/this-is-home" };
-        expect(() => getCredentials()).toThrow("File is not found: /this-is-home/.aws/credentials!");
+        process.env = { USER: "user", HOME: sep + "this-is-home" };
+        expect(() => getCredentials()).toThrow(`File is not found: ${sep + join("this-is-home", ".aws", "credentials")}`);
     });
 
     test("should handle explicit profile", () => {
@@ -113,7 +114,7 @@ describe("getCredentials", () => {
         key2=value2
         `);
 
-        process.env = { HOMEPATH: "/homepath", AWS_PROFILE: "no-such-profile" };
+        process.env = { HOMEPATH: sep + "homepath", AWS_PROFILE: "no-such-profile" };
         const configuration = getCredentials();
         expect(configuration).toEqual({
             "key1": "value1",
@@ -125,7 +126,7 @@ describe("getCredentials", () => {
         (platform as unknown as jest.Mock).mockReturnValue("win32");
         (existsSync as unknown as jest.Mock).mockReturnValue(true);
 
-        process.env = { HOMEPATH: "/homepath", AWS_PROFILE: "no-such-profile" };
+        process.env = { HOMEPATH: sep + "homepath", AWS_PROFILE: "no-such-profile" };
         expect(() => getCredentials()).toThrow("There is no such profile as no-such-profile!");
     });
 });
