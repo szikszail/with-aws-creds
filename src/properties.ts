@@ -26,7 +26,7 @@ function parseKeyValuePair(line: string): [string, string] {
 }
 
 function parse(text: string): Profiles {
-    debug("parse text.length %d", text?.length);
+    debug("parse text.length %d", text.length);
     const valueLines = text.split(/\r?\n\r?/)
         .map(l => removeComment(l).trim())
         .filter(Boolean);

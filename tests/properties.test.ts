@@ -7,6 +7,7 @@ describe("parseFile", () => {
     test("should parse file with profiles", () => {
         (readFileSync as unknown as jest.Mock).mockReturnValue(`
         [default]
+        # test default profile
         key1 = value1
         key2=value2
 
