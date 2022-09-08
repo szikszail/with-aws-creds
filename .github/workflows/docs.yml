@@ -8,3 +8,5 @@ on:
 jobs:
   call_typedocs_pages:
     uses: szikszail/workflows/.github/workflows/typedocs-pages.yml@v1
+    with:
+      doc_script: typedoc
